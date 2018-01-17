@@ -1,6 +1,7 @@
 package com.SocketIO;
 
 import com.SocketIO.ListenServer.LoginServer;
+import com.SocketIO.ListenServer.MenuServer;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOClient;
@@ -52,6 +53,20 @@ public class SocketIo_Server implements ServletContextListener,   ApplicationLis
                 Map params = client.getHandshakeData().getUrlParams();//获取客户端url参数
                 System.out.println(clientIp + "：客户端接收：----------->" + data);
                 String res = LoginServer.login(data);
+                System.out.println(clientIp + "：服务端返回：----------->" + res);
+                server.getBroadcastOperations().sendEvent("listen"+"Login", res);//监听反馈的消息
+            }
+        });
+
+        //监听事件，Login为事件名称，自定义
+        server.addEventListener("Menu", String.class, new DataListener<String>() {
+            public void onData(SocketIOClient client, String data, AckRequest ackRequest) {
+                //客户端推送Login事件时，onData接受数据，这里是string类型的json数据，还可以为Byte[],object其他类型
+                String sa = client.getRemoteAddress().toString();
+                String clientIp = sa.substring(1, sa.indexOf(":"));//获取客户端连接的ip
+                Map params = client.getHandshakeData().getUrlParams();//获取客户端url参数
+                System.out.println(clientIp + "：客户端接收：----------->" + data);
+                String res = MenuServer.Menu(data);
                 System.out.println(clientIp + "：服务端返回：----------->" + res);
                 server.getBroadcastOperations().sendEvent("listen"+"Login", res);//监听反馈的消息
             }
