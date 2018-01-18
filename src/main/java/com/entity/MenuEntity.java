@@ -1,11 +1,16 @@
 package com.entity;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "menu", schema = "management", catalog = "")
+@DynamicInsert(true)
+@DynamicUpdate(true)
 public class MenuEntity {
     private BigInteger id;
     private String menuId;

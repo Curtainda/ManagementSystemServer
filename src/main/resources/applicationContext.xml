@@ -34,6 +34,7 @@
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<!-- hibernate相关属性配置 -->
+
         <property name="hibernateProperties">
             <props>
                 <!-- 设置数据库方言 -->
@@ -56,6 +57,8 @@
                 <prop key="hibernate.connection.autocommit">true</prop>
                 <!-- 指定hibernate在何时释放JDBC连接 -->
                 <prop key="hibernate.connection.release_mode">auto</prop>
+                <!-- 保证了我们前面说的每次取出连接时会检查该连接是否被关闭了 -->
+                <prop key="hibernate.c3p0.testConnectionOnCheckout">true</prop>
                 <!-- 创建session方式 hibernate4.x 的方式 -->
                 <prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
                 <!-- javax.persistence.validation.mode默认情况下是auto的，就是说如果不设置的话它是会自动去你的classpath下面找一个bean-validation**包所以把它设置为none即可 -->

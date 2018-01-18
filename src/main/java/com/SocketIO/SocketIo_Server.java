@@ -68,7 +68,7 @@ public class SocketIo_Server implements ServletContextListener,   ApplicationLis
                 System.out.println(clientIp + "：客户端接收：----------->" + data);
                 String res = MenuServer.Menu(data);
                 System.out.println(clientIp + "：服务端返回：----------->" + res);
-                server.getBroadcastOperations().sendEvent("listen"+"Login", res);//监听反馈的消息
+                server.getBroadcastOperations().sendEvent("listen"+"Menu", res);//监听反馈的消息
             }
         });
 

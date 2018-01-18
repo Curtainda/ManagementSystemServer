@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.dao.HibernateDao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +51,8 @@ public class HibernateDaoImpl implements HibernateDao {
         Session session = getSession();
         if ("int".equals(idtype)) {//判断主键是int型还是strng
             obj = session.get(c, Integer.valueOf(id).intValue());
+        }else if ("bigint".equals(idtype)){
+            obj = session.get(c, BigInteger.valueOf(Long.valueOf(id).longValue()));
         } else {
             obj = session.get(c, id);
         }
@@ -71,6 +74,7 @@ public class HibernateDaoImpl implements HibernateDao {
     }
     public List Queryforsql(String sql){
         List list = null;
+        ArrayList<Map<String, Object>> resultlist = null;
         Session session = null;
         session = getNewSession();
         SQLQuery query = session.createSQLQuery(sql);
@@ -78,23 +82,24 @@ public class HibernateDaoImpl implements HibernateDao {
         list =query.list();
         //list = session.createSQLQuery(sql).list();
         if ((list != null) && (list.size() > 0)) {
-            ArrayList<Map<String, Object>> resultlist = new ArrayList<Map<String, Object>>();
+             resultlist = new ArrayList<Map<String, Object>>();
             for(int i=0;i<list.size();i++){
                 Map<String, Object> map = new HashMap<String, Object>();
                 map = (Map)list.get(i);
                 for (String key : map.keySet()) {
                     if(map.get(key) == null){
                         map.put(key, "");
+                    }else{
+                        map.put(key, map.get(key)+"");
                     }
                 }
                 resultlist.add(map);
             }
-            return resultlist;
         }
         session.flush();
         session.clear();
         session.close();
-        return list;
+        return resultlist;
     }
     @SuppressWarnings({ "rawtypes" })
     public void save(Object bean) {
@@ -117,6 +122,8 @@ public class HibernateDaoImpl implements HibernateDao {
         Object obj = null;
         if ("int".equals(idtype)) {//判断主键是int型还是strng
             obj = session.get(c, Integer.valueOf(id).intValue());
+        }else if ("bigint".equals(idtype)){
+            obj = session.get(c, BigInteger.valueOf(Long.valueOf(id).longValue()));
         } else {
             obj = session.get(c, id);
         }
@@ -136,6 +143,8 @@ public class HibernateDaoImpl implements HibernateDao {
             Object obj = null;
             if ("int".equals(idtype)) {//判断主键是int型还是strng
                 obj = session.get(c, Integer.valueOf(id).intValue());
+            }else if ("bigint".equals(idtype)){
+                obj = session.get(c, BigInteger.valueOf(Long.valueOf(id).longValue()));
             } else {
                 obj = session.get(c, id);
             }
@@ -167,6 +176,8 @@ public class HibernateDaoImpl implements HibernateDao {
         Object obj = null;
         if ("int".equals(idtype)) {//判断主键是int型还是strng
             obj = session.get(c, Integer.valueOf(id).intValue());
+        }else if ("bigint".equals(idtype)){
+            obj = session.get(c, BigInteger.valueOf(Long.valueOf(id).longValue()));
         } else {
             obj = session.get(c, id);
         }
@@ -186,6 +197,8 @@ public class HibernateDaoImpl implements HibernateDao {
             Object obj = null;
             if ("int".equals(idtype)) {//判断主键是int型还是strng
                 obj = session.get(c, Integer.valueOf(id).intValue());
+            } else if ("bigint".equals(idtype)){
+                obj = session.get(c, BigInteger.valueOf(Long.valueOf(id).longValue()));
             } else {
                 obj = session.get(c, id);
             }
