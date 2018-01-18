@@ -67,8 +67,9 @@ public class test {
     public void update() {
         int i = -1;
         try {
-        dao.update(UserEntity.class,"10","int");
-        i=0;
+            UserEntity user = new UserEntity();
+            dao.update(user);
+            i=0;
         }catch (Exception e){
             System.out.println("err--->"+e.getMessage());
         }

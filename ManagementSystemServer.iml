@@ -28,7 +28,6 @@
         <datasource-map>
           <unit-entry name="a.xml" value="1656b7e4-ee32-4c73-9a96-001f93818161" />
           <unit-entry name="hibernate.cfg.xml" value="1656b7e4-ee32-4c73-9a96-001f93818161" />
-          <unit-entry name="sessionFactory" value="ae971273-e9c1-47cf-b467-e05e3df48ba2" />
         </datasource-map>
         <naming-strategy-map />
       </configuration>

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -113,14 +115,21 @@ public class MenuServer {
         Map<String, String> map = new HashMap<String, String>();
         try {
             UUID = Tool.DocJson(msg,"uuid");
+            String ID = Tool.DocJson(msg,"ID");
             String menu_id = Tool.DocJson(msg,"menu_id");
             String menu_name = Tool.DocJson(msg,"menu_name");
-            // String state = "";
+            String state = Tool.DocJson(msg,"state");
             String remarks = Tool.DocJson(msg,"remarks");
-            MenuEntity menu = new MenuEntity();
-            dao.save(menu);
+            MenuEntity menu =(MenuEntity)dao.Query(MenuEntity.class,ID,"bigint");
+            menu.setId(BigInteger.valueOf(Long.valueOf(ID).longValue()));
+            menu.setMenuId(menu_id);
+            menu.setMenuName(menu_name);
+            menu.setState(Integer.valueOf(state).intValue());
+            menu.setRemarks(remarks);
+            menu.setLastUpdateTime(new Timestamp(new Date().getTime()));
+            dao.update(menu);
             map.put("Code", "0");
-            map.put("Message","添加成功");
+            map.put("Message","修改成功");
         }catch (Exception e){
             e.printStackTrace();
             map.put("Code", "-1");

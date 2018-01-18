@@ -13,11 +13,7 @@ public interface EntityDao {
 
     public void save(Object bean);
 
-    public void update(Class c, String id ,String idtype);
-
-    public void update(Class c, String[] ids,String idtype);
-
-    public void delete(Object bean);
+    public void update(Object bean);
 
     public void delete(Class c, String id ,String idtype);
 

@@ -4,6 +4,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,9 +57,6 @@ public class HibernateDaoImpl implements HibernateDao {
         } else {
             obj = session.get(c, id);
         }
-        session.flush();
-        session.clear();
-        session.close();
         return obj;
     }
     @SuppressWarnings("rawtypes")
@@ -114,54 +112,12 @@ public class HibernateDaoImpl implements HibernateDao {
         session.close();
     }
     @SuppressWarnings({ "rawtypes" })
-    public void update(Class c, String id ,String idtype) {
+    public void update(Object bean) {
         Transaction transaction = null;
         Session session = null;
         session  = getNewSession();
         transaction = session.beginTransaction();
-        Object obj = null;
-        if ("int".equals(idtype)) {//判断主键是int型还是strng
-            obj = session.get(c, Integer.valueOf(id).intValue());
-        }else if ("bigint".equals(idtype)){
-            obj = session.get(c, BigInteger.valueOf(Long.valueOf(id).longValue()));
-        } else {
-            obj = session.get(c, id);
-        }
-        session.update(obj);//修改
-        transaction.commit();//提交
-        session.flush();
-        session.clear();
-        session.close();
-    }
-    @SuppressWarnings({ "rawtypes" })
-    public void update(Class c, String[] ids,String idtype) {
-        Transaction transaction = null;
-        Session session = null;
-        session  = getNewSession();
-        transaction = session.beginTransaction();
-        for(String id : ids){
-            Object obj = null;
-            if ("int".equals(idtype)) {//判断主键是int型还是strng
-                obj = session.get(c, Integer.valueOf(id).intValue());
-            }else if ("bigint".equals(idtype)){
-                obj = session.get(c, BigInteger.valueOf(Long.valueOf(id).longValue()));
-            } else {
-                obj = session.get(c, id);
-            }
-            session.update(obj);//批量修改
-        }
-        transaction.commit();//提交
-        session.flush();
-        session.clear();
-        session.close();
-    }
-    @SuppressWarnings({ "rawtypes" })
-    public void delete(Object bean) {
-        Transaction transaction = null;
-        Session session = null;
-        session  = getNewSession();
-        transaction = session.beginTransaction();
-        session.delete(bean);//删除
+        session.update(bean);//修改
         transaction.commit();//提交
         session.flush();
         session.clear();

@@ -3,6 +3,7 @@ package com.service.impl;
 
 import com.dao.HibernateDao;
 import com.service.EntityDao;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,16 +34,8 @@ public class EntityDaoImpl implements EntityDao {
        Dao.save(bean);
     }
     @Transactional
-    public void update(Class c, String id ,String idtype){
-        Dao.update(c,  id , idtype);
-    }
-    @Transactional
-    public void update(Class c, String[] ids,String idtype){
-        Dao.update(c,  ids , idtype);
-    }
-    @Transactional
-    public void delete(Object bean){
-        Dao.delete(bean);
+    public void update(Object bean){
+        Dao.update(bean);
     }
     @Transactional
     public void delete(Class c, String id ,String idtype){
